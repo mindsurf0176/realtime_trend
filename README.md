@@ -42,11 +42,22 @@ python3 backend/server.py
 - `GET /api/issues?hours=48` — 기간 내 이슈 목록 (첫등장·최종·최고순위)
 - `GET /api/health`
 
-### Railway 배포
-1. 이 리포를 GitHub에 올리고 Railway에서 새 프로젝트로 연결 (Nixpacks가 자동 인식).
-2. **Volume**을 붙이고 마운트 경로를 `/data`로 지정.
-3. 환경변수 `DB_PATH=/data/issues.db` 설정 (재배포해도 데이터 유지).
-4. 배포 후 URL을 iOS 앱 `Sources/Config.swift`의 `baseURL`에 넣는다.
+### 배포 상태 (라이브)
+- URL: **https://issuebox-backend-production.up.railway.app**
+- Railway 프로젝트: `issuebox-backend` (mindsurf0176-ui workspace)
+- Volume `/data` + `DB_PATH=/data/issues.db` 설정 완료 (재배포해도 타임라인 유지)
+- 10분마다 자동 수집 중
+
+### 재배포
+```bash
+railway up -d -s <service-id>
+```
+
+### 새로 배포할 때 (다른 계정 등)
+1. `railway init -n <name>` → `railway up -d`
+2. `railway volume -s <svc> add -m /data`
+3. `railway variables -s <svc> --set "DB_PATH=/data/issues.db"`
+4. `railway domain -s <svc>` 로 공개 URL 생성 → `Sources/Config.swift`의 `baseURL`에 반영
 
 > 볼륨 없이 배포하면 재배포마다 SQLite가 초기화돼 타임라인이 리셋된다. 반드시 볼륨을 붙일 것.
 
