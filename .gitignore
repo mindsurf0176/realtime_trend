@@ -1,0 +1,11 @@
+# SQLite 데이터
+*.db
+backend/issues.db
+
+# iOS 빌드 산출물
+ios/build/
+ios/IssueBox.xcodeproj/
+ios/DerivedData/
+
+# macOS
+.DS_Store
